@@ -1,48 +1,48 @@
-const form = document.getElementById('registrationForm');
+document.addEventListener('DOMContentLoaded', function() {
+  // Form and Feedback Division Selection
+  const form = document.getElementById('registration-form');
+  const feedbackDiv = document.getElementById('form-feedback');
 
-    form.addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent form submission
+  // Form Submission Event Listener
+  form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form from submitting
 
-      // Validate username
-      const usernameInput = document.getElementById('username');
-      const usernameError = document.getElementById('usernameError');
-      if (usernameInput.value.length < 3) {
-        usernameError.textContent = 'Username must be at least 3 characters long.';
-        return;
-      } else {
-        usernameError.textContent = '';
+      // Input Retrieval and Trimming
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      // Initialize Validation Variables
+      let isValid = true;
+      let messages = [];
+
+      // Username Validation
+      if (username.length < 3) {
+          isValid = false;
+          messages.push("Username must be at least 3 characters long.");
       }
 
-      // Validate email
-      const emailInput = document.getElementById('email');
-      const emailError = document.getElementById('emailError');
-      if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(emailInput.value)) {
-        emailError.textContent = 'Please enter a valid email address.';
-        return;
-      } else {
-        emailError.textContent = '';
+      // Email Validation
+      if (!email.includes('@') || !email.includes('.')) {
+          isValid = false;
+          messages.push("Please enter a valid email address.");
       }
 
-      // Validate password
-      const passwordInput = document.getElementById('password');
-      const passwordError = document.getElementById('passwordError');
-      if (passwordInput.value.length < 6) {
-        passwordError.textContent = 'Password must be at least 6 characters long.';
-        return;
-      } else {
-        passwordError.textContent = '';
+      // Password Validation
+      if (password.length < 8) {
+          isValid = false;
+          messages.push("Password must be at least 8 characters long.");
       }
 
-      // Validate age
-      const ageInput = document.getElementById('age');
-      const ageError = document.getElementById('ageError');
-      if (ageInput.value < 18 || ageInput.value > 99) {
-        ageError.textContent = 'Age must be between 18 and 99.';
-        return;
-      } else {
-        ageError.textContent = '';
-      }
+      // Display Feedback
+      feedbackDiv.style.display = 'block'; // Show the feedback div
 
-      // If all validations pass, submit the form
-      form.submit();
-    });
+      if (isValid) {
+          feedbackDiv.textContent = "Registration successful!";
+          feedbackDiv.style.color = "#28a745"; // Success green color
+      } else {
+          feedbackDiv.innerHTML = messages.join('<br>'); // Join error messages with <br>
+          feedbackDiv.style.color = "#dc3545"; // Error red color
+      }
+  });
+});
